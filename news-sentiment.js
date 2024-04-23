@@ -4,8 +4,8 @@ const axios = require('axios');
 const Sentiment = require('sentiment');
 const natural = require('natural');
 const finnhub = require('finnhub');
-const { saveArticles } = require('./utils/database');
-const { scrapeNews } = require('./utils/scraper');
+const { saveArticles } = require('./database');
+const { scrapeNews } = require('./scraper');
 
 const app = express();
 app.use(express.json());
