@@ -22,7 +22,7 @@ const naturalAnalyzer = new Analyzer("English", stemmer, "afinn");
 
 // database setup
 const { saveArticles, loadArticles } = require('./utils/database');
-const { scrapeNews } = require('./utils/scraper');
+const { scrapeNews } = require('./scraper');
 const { verify } = require('crypto');
 const fs = require('fs');
 const e = require('express');
