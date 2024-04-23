@@ -1,0 +1,29 @@
+{
+  "name": "marketpulse_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.42.5",
+    "axios": "^1.6.8",
+    "chalk": "^4.1.2",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "duckdb": "^0.10.1",
+    "express": "^4.19.2",
+    "finnhub": "^1.2.18",
+    "gnews": "^1.0.3",
+    "natural": "^6.12.0",
+    "openai": "^4.32.0",
+    "say": "^0.16.0",
+    "sentiment": "^5.0.2",
+    "sqlite3": "^5.1.7"
+  }
+}
