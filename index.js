@@ -45,8 +45,8 @@ const gnewsApiKey = process.env.GNEWS_API_KEY;
 const finnhubApiKey = process.env.FINNHUB_API_KEY; // Ensure this is set in the .env file
 
 // Set the base URL depending on the environment
-//const baseUrl = process.env.API_BASE_URL;
-const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : (process.env.API_BASE_URL || 'http://localhost:3001');
+const baseUrl = process.env.API_BASE_URL;
+//const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : (process.env.API_BASE_URL || 'http://localhost:3001');
 
 // Log the base URL to see what it's set to on startup (helpful for debugging)
 console.log(`Base URL is set to: ${baseUrl}`);
