@@ -1,4 +1,4 @@
-// server.js
+// index.js
 // server-side of the MarketPulse app
 require('dotenv').config();
 const express = require('express');
