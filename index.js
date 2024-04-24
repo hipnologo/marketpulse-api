@@ -113,13 +113,8 @@ const scrapedNews = async () => {
     }
 };
 
-// API endpoint for Health Check
-app.get('/', (req, res) => {
-    res.json({ status: 'Market Pulse is running' });
-});
-
 // API endpoint for Health Check with expanded statistics
-app.get('/api/health', (req, res) => {
+app.get('/', (req, res) => {
     const uptime = process.uptime(); // Process uptime in seconds
     const memoryUsage = process.memoryUsage(); // Memory usage details
     const cpuLoad = os.loadavg(); // Average CPU load over 1, 5, and 15 minutes
