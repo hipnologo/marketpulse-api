@@ -21,7 +21,7 @@
     "finnhub": "^1.2.18",
     "gnews": "^1.0.3",
     "natural": "^6.12.0",
-    "openai": "^4.32.0",
+    "openai": "latest",
     "say": "^0.16.0",
     "sentiment": "^5.0.2",
     "sqlite3": "^5.1.7"
