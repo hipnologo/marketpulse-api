@@ -1,19 +1,21 @@
-require('dotenv').config();
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const router = express.Router();
 const OpenAI = require('openai');
-
-const app = express();
-app.use(express.json());
-
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const openai = new OpenAI(OPENAI_API_KEY);
-
-// OpenAI API endpoint for reading the news; fallback to 'say' if OpenAI fails
 const say = require('say');
-app.post('/api/read-news', async (req, res) => {
-    const { text } = req.body; // Define `text` here so it's accessible throughout the function
+const path = require('path');
+const fs = require('fs');
+
+// Setup OpenAI client
+const openai = new OpenAI.ApiClient({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+router.post('/', async (req, res) => {
+    const { text } = req.body;  // Ensure text is provided in the request body
+
+    if (!text) {
+        return res.status(400).json({ error: 'No text provided for TTS.' });
+    }
 
     try {
         const speechResponse = await openai.audio.speech.create({
@@ -25,22 +27,24 @@ app.post('/api/read-news', async (req, res) => {
         res.json({ audioContent: audioBuffer.toString('base64') });
     } catch (error) {
         console.error('Error with OpenAI TTS service:', error);
-        try {
-            // Using 'say' as a simple example for server-side fallback
-            say.export(text, null, 1, 'fallbackSpeech.mp3', (err) => {
-                if (err) {
-                    console.error('Error with alternative TTS service:', err);
-                    res.status(503).json({ error: 'TTS services unavailable', fallbackText: text });
-                } else {
-                    // Send the fallback audio file or its location as needed
-                    res.sendFile(path.resolve('fallbackSpeech.mp3'));
-                }
-            });
-        } catch (fallbackError) {
-            console.error('Error with alternative TTS service:', fallbackError);
-            res.status(503).json({ error: 'TTS services unavailable', fallbackText: text });
-        }
+        // Fallback to server-side TTS using 'say'
+        const fileName = `fallbackSpeech-${Date.now()}.mp3`;
+        const filePath = path.join(__dirname, fileName);
+        say.export(text, null, 1, filePath, (err) => {
+            if (err) {
+                console.error('Error with alternative TTS service:', err);
+                return res.status(503).json({ error: 'TTS services unavailable', fallbackText: text });
+            } else {
+                // Send the fallback audio file or its location as needed
+                res.sendFile(filePath, (err) => {
+                    // Clean up the file after sending it
+                    fs.unlink(filePath, (err) => {
+                        if (err) console.error("Error cleaning up file:", err);
+                    });
+                });
+            }
+        });
     }
 });
 
-module.exports = app;
+module.exports = router;
