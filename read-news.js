@@ -1,15 +1,14 @@
-// read-news.js
 const express = require('express');
 const router = express.Router();
 const { Configuration, OpenAIApi } = require('openai');
 
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY
+    apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
 router.post('/', async (req, res) => {
-    const { text } = req.body;  // Ensure text is provided in the request body
+    const { text } = req.body;
 
     if (!text) {
         return res.status(400).json({ error: 'No text provided for TTS.' });
@@ -17,7 +16,7 @@ router.post('/', async (req, res) => {
 
     try {
         const speechResponse = await openai.createAudio({
-            model: "text-to-speech", // Make sure to use the correct model identifier
+            model: "text-to-speech-model-id", // Use the actual model ID, such as "text-davinci-002"
             input: text,
             voice: "alloy",
         });
