@@ -14,11 +14,13 @@ app.use(cors());
 const healthRouter = require('./health');
 const newsSentimentRouter = require('./news-sentiment');
 const loadNewsRouter = require('./load-news');
+const readNewsRouter = require('./read-news');
 
 // Define the route endpoints
 app.use('/', healthRouter);  // Health check route
-app.use('/api/news-sentiment', newsSentimentRouter);  // News sentiment analysis route
-app.use('/api/load-news', loadNewsRouter);  // Load saved news route
+app.use('/api/news-sentiment', newsSentimentRouter); 
+app.use('/api/load-news', loadNewsRouter); 
+app.use('/api/read-news', readNewsRouter);
 
 // Start the server, only if not running under Vercel
 if (!process.env.VERCEL) {
