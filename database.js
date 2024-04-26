@@ -3,6 +3,8 @@
 require('dotenv').config();  // Consider specifying path if your environment needs it.
 const DATABASE = process.env.DATABASE;
 
+const chalk = require('chalk');
+
 let db;
 let saveFunction;
 let loadFunction;
@@ -61,7 +63,7 @@ let loadFunction;
             case 'supabase':
                 const { createClient } = require('@supabase/supabase-js');
                 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-                console.log('Connected to the Supabase database.');
+                console.log(chalk.yellow('Connected to the Supabase database.'));
 
                 saveFunction = async (articles) => {
                     for (let article of articles) {

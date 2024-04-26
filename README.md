@@ -46,11 +46,11 @@ This application can be deployed to various platforms that support Node.js. Refe
 
 ## API Endpoints:
 
-`/`: Health check endpoint (responds with "Market Pulse is running")
-`/api/health`: Extended health check endpoint with uptime, memory usage, and CPU load details.
-`/api/news-sentiment`: Retrieves analyzed news articles and overall market sentiment. You can optionally provide a query parameter q to specify a search term.
-`/api/load-news`: Fetches existing news articles from the database (requires DATABASE environment variable to be set).
-`/api/read-news`: Takes news text in the request body and returns audio content or a fallback response using TTS.
+* `/`: Health check endpoint (responds with "Market Pulse is running")
+* `/api/health`: Extended health check endpoint with uptime, memory usage, and CPU load details.
+* `/api/news-sentiment`: Retrieves analyzed news articles and overall market sentiment. You can optionally provide a query parameter q to specify a search term.
+* `/api/load-news`: Fetches existing news articles from the database (requires DATABASE environment variable to be set).
+* `/api/read-news`: Takes news text in the request body and returns audio content or a fallback response using TTS.
 
 #### Example Usage:
 

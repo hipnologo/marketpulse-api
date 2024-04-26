@@ -1,21 +1,19 @@
+// news-sentiment.js
 const express = require('express');
 const router = express.Router();
-const { fetchGNews, fetchFinnhubNews, scrapeNews } = require('./news-fetchers');  // Assumed new module for fetching news
-const { analyzeSentiment, normalizeScores, classifyOverallSentiment } = require('./sentiment-analyzer');  // Assumed new module for sentiment analysis
+const { fetchGNews, fetchFinnhubNews, scrapeNews } = require('./news-fetchers');
+const { analyzeSentiment, standardizeScores, classifyOverallSentiment } = require('./sentiment-analyzer');
 
-// Endpoint for news sentiment analysis
 router.get('/', async (req, res) => {
     const query = req.query.q || 'stock market';
 
     try {
-        // Fetch news from different sources
         const results = await Promise.allSettled([
             fetchGNews(query),
             fetchFinnhubNews(),
             scrapeNews()
         ]);
 
-        // Combine articles from all sources
         const combinedArticles = results.reduce((acc, result) => {
             if (result.status === 'fulfilled') {
                 return acc.concat(result.value);
@@ -27,17 +25,16 @@ router.get('/', async (req, res) => {
             return res.status(404).json({ message: "No news articles found." });
         }
 
-        // Analyze sentiment of combined articles
-        const sentimentResults = combinedArticles.map(article => analyzeSentiment(article));
-        const filteredResults = sentimentResults.filter(result => result != null);
+        const sentimentResults = combinedArticles.map(article => analyzeSentiment(article)).filter(article => article !== null);
+        if (!sentimentResults.length) {
+            return res.status(404).json({ message: "No valid articles for sentiment analysis." });
+        }
+        
+        const standardizedSentimentScores = standardizeScores(sentimentResults);
+        const marketSentiment = classifyOverallSentiment(standardizedSentimentScores);
 
-        // Normalize and classify sentiment scores
-        const normalizedSentimentScores = normalizeScores(filteredResults);
-        const marketSentiment = classifyOverallSentiment(normalizedSentimentScores);
-
-        // Prepare and send the response
         res.json({
-            articles: normalizedSentimentScores,
+            articles: standardizedSentimentScores,
             aggregatedSentiment: marketSentiment.aggregatedSentiment,
             marketSentiment: marketSentiment.label
         });
