@@ -64,3 +64,5 @@ This will return a JSON response containing the analyzed news articles and overa
 Error handling is implemented for various operations, returning appropriate HTTP status codes.
 Colored console logging (chalk) is used for informative output.
 Consider implementing unit and integration tests for robust functionality.
+
+<a href="https://www.buymeacoffee.com/hipnologod" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
